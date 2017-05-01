@@ -1,4 +1,4 @@
-# Ansible Role: Elasticsearch
+# Ansible Role: Elasticsearch [![Build Status](https://travis-ci.org/jradtilbrook/ansible-role-elasticsearch.svg?branch=master)](https://travis-ci.org/jradtilbrook/ansible-role-elasticsearch)
 
 This role installs and configures Elasticsearch 5.x for the Elastic stack.
 
