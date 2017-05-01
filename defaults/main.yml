@@ -1,0 +1,17 @@
+---
+# change this to `latest` to always get the most up to date version
+elasticsearch_install_state: present
+
+# this dictionary is written as is to the elasticsearch.yml configuration file
+# so any valid properties are allowed
+elasticsearch_config_settings:
+  network:
+    host: localhost
+
+# the JDK version to install
+elasticsearch_jdk_version: openjdk-8-jdk
+
+# JVM options. use these to override the defaults
+# NOTE: they should generally be set to the same value
+# elasticsearch_jvm_heap_min: 2g
+# elasticsearch_jvm_heap_max: 2g

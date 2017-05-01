@@ -1,0 +1,57 @@
+---
+- name: ensure apt-transport-https installed
+  apt:
+    pkg: apt-transport-https
+    state: present
+
+- name: add elasticstack GPG key
+  apt_key:
+    url: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+    state: present
+
+- name: add elasticstack repository
+  apt_repository:
+    repo: deb https://artifacts.elastic.co/packages/5.x/apt stable main
+    state: present
+    update_cache: yes
+
+- name: install elasticsearch
+  apt:
+    pkg: "{{ item }}"
+    state: "{{ elasticsearch_install_state }}"
+  with_items:
+    - elasticsearch
+    - "{{ elasticsearch_jdk_version }}"
+
+- name: copy JVM configuration
+  template:
+    src: jvm.options.j2
+    dest: /etc/elasticsearch/jvm.options
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart elasticsearch
+
+- name: copy logging configuration
+  template:
+    src: log4j2.properties.j2
+    dest: /etc/elasticsearch/log4j2.properties
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart elasticsearch
+
+- name: copy elasticsearch configuration
+  template:
+    src: elasticsearch.yml.j2
+    dest: /etc/elasticsearch/elasticsearch.yml
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart elasticsearch
+
+- name: start and enable elasticsearch
+  service:
+    name: elasticsearch
+    state: started
+    enabled: yes
